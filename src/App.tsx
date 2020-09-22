@@ -6,6 +6,7 @@ import MovieContext from "./contexts/MovieContext";
 import NavBar from "./components/NavBar";
 import Main from "./pages/Main";
 import { reducer } from "./reducer";
+import MovieDetail from "./pages/MovieDetail";
 
 const openNotification = (message: string) => {
   notification.error({
@@ -44,12 +45,14 @@ const App = (): JSX.Element => {
         <Spin style={{transform: "translate(50vw, 10px)"}}/>
       ) : (
         <>
-          <NavBar />
-          <div style={{ padding: "10px 70px 0", alignItems: "center" }}>
             <BrowserRouter>
+              <NavBar />
+              <div style={{ padding: "10px 50px 0", alignItems: "center" }}>
+
               <Route exact path="/" component={Main} />
+              <Route path="/:movie" component={MovieDetail} />
+              </div>
             </BrowserRouter>
-          </div>
         </>
       )}
     </MovieContext.Provider>
