@@ -7,6 +7,7 @@ import NavBar from "./components/NavBar";
 import Main from "./pages/Main";
 import { reducer } from "./reducer";
 import MovieDetail from "./pages/MovieDetail";
+import { Movie } from "./types";
 
 const openNotification = (message: string) => {
   notification.error({
@@ -17,7 +18,7 @@ const openNotification = (message: string) => {
 
 const App = (): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, { isLoading: false });
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
 
   const getMovies = async () => {
     dispatch({ type: "SET_LOADING", payload: true });
@@ -37,6 +38,7 @@ const App = (): JSX.Element => {
   useEffect(() => {
     if (state.isLoading) return;
     getMovies();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
