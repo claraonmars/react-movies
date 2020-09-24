@@ -20,3 +20,7 @@ export interface Action {
     type: string,
     payload?: any
 }
+
+export interface Filters {
+    [key: string]: any
+}
