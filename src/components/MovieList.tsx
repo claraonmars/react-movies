@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Card, List, Col, Row, Empty } from "antd";
+import { Card, List, Col, Row, Empty, Typography } from "antd";
 import { Context } from "../types";
 
-const MovieList = (movies: Context) => {
+const { Text } = Typography;
+const MovieList = (movies: Context): JSX.Element => {
   return (
     <>
       {movies.movies?.length ? (
@@ -20,8 +21,17 @@ const MovieList = (movies: Context) => {
           dataSource={movies.movies}
           renderItem={(movie) => (
             <List.Item>
-              <Card>
-                <Link to={`/${movie.name}`}>{movie.name}</Link>
+              <Card
+                title={
+                  <span>
+                    <Link to={`/${movie.name}`}>{movie.name}</Link>
+                    <h5>
+                      <Text type="secondary">{movie.productionYear}</Text>
+                    </h5>
+                  </span>
+                }
+              >
+                {movie.synopsisShort}
               </Card>
             </List.Item>
           )}
@@ -35,7 +45,7 @@ const MovieList = (movies: Context) => {
                   style={{ cursor: "pointer" }}
                   onClick={() => window.location.reload()}
                 >
-                  Try Again
+                  No data found
                 </span>
               }
             />
