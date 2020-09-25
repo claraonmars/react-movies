@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
-import { Typography, Row, Col, Empty } from "antd";
+import { Typography } from "antd";
 import { useLocation } from "react-router-dom";
 import parse from "html-react-parser";
 import MovieContext from "../contexts/MovieContext";
+import EmptyMessage from "../components/EmptyMessage";
 
 const { Paragraph } = Typography;
 
@@ -29,20 +30,7 @@ const MovieDetail = (): JSX.Element => {
           </Paragraph>
         </div>
       ) : (
-        <Row style={{ justifyContent: "center" }}>
-          <Col style={{ justifyContent: "center" }}>
-            <Empty
-              description={
-                <span
-                  style={{ cursor: "pointer" }}
-                  onClick={() => window.location.reload()}
-                >
-                  No data found
-                </span>
-              }
-            />
-          </Col>
-        </Row>
+        <EmptyMessage/>
       )}
     </>
   );

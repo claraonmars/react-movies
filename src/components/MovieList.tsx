@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Card, List, Col, Row, Empty, Typography } from "antd";
+import { Card, List, Typography } from "antd";
 import { Context } from "../types";
+import EmptyMessage from "./EmptyMessage";
 
 const { Text } = Typography;
 const MovieList = (movies: Context): JSX.Element => {
@@ -37,20 +38,7 @@ const MovieList = (movies: Context): JSX.Element => {
           )}
         />
       ) : (
-        <Row style={{ justifyContent: "center" }}>
-          <Col style={{ justifyContent: "center" }}>
-            <Empty
-              description={
-                <span
-                  style={{ cursor: "pointer" }}
-                  onClick={() => window.location.reload()}
-                >
-                  No data found
-                </span>
-              }
-            />
-          </Col>
-        </Row>
+        <EmptyMessage/>
       )}
     </>
   );
