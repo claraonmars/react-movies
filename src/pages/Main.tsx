@@ -7,8 +7,6 @@ import FiltersModal from "../components/Filters";
 
 const Main: FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
-
-
   const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
 
   const { state } = useContext(MovieContext);

@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, FC } from "react";
+import React, { useEffect, useReducer, useState, FC } from "react";
 import axios from "axios";
 import { notification, Spin } from "antd";
 import { BrowserRouter, Route } from "react-router-dom";
@@ -15,24 +15,33 @@ const openNotification = (message: string) => {
   });
 };
 
+const maxTries = 3
+
 const App: FC = () => {
   const [state, dispatch] = useReducer(reducer, { isLoading: false, filtersApplied: {
     genre: [],
     year: [],
   } });
+  const [tries, setTries] = useState<number>(0)
 
   const getMovies = async () => {
     dispatch({ type: "SET_LOADING", payload: true });
+    setTries((prev) => prev + 1)
     try {
       const { data } = await axios.get(
         "https://sometimes-maybe-flaky-api.gdshive.io/"
       );
       dispatch({ type: "SET_MOVIES", payload: data });
+      dispatch({ type: "SET_LOADING", payload: false });
     } catch (e) {
-      // TODO: add checks
-      openNotification(e.response.data.message);
+      if(tries <= maxTries){
+        getMovies()
+      }
+      else{
+       openNotification(e.response.data.message);
+       dispatch({ type: "SET_LOADING", payload: false });
+      }
     }
-    dispatch({ type: "SET_LOADING", payload: false });
   };
 
   useEffect(() => {
