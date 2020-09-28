@@ -20,3 +20,14 @@ export const mockMovies = [
       "When the farmer's away, all the animals play, and sing, and dance. Eventually, though, someone has to step in and run things, a responsibility that ends up going to Otis, a carefree cow.",
   },
 ];
+
+export const initialState = {
+  movies: mockMovies,
+  isLoading: false,
+  filtersApplied: {
+    genre: [],
+    year: []
+  }
+}
+
+export const mockDispatch = jest.fn();

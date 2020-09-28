@@ -5,7 +5,7 @@ import { Router } from "react-router-dom";
 import { createMemoryHistory } from 'history'
 
 import MovieDetail from "../pages/MovieDetail";
-import { mockMovies } from "../utils/mockData";
+import { mockMovies, initialState as state, mockDispatch as dispatch } from "./utils/mockData";
 
 beforeAll(() => {
   Object.defineProperty(window, "matchMedia", {
@@ -30,7 +30,7 @@ describe("Movie Detail page", () => {
     history.push('/Deadpool')
     const { container } = render(
       <Router history={history}>
-        <MovieContext.Provider value={{ movies: mockMovies }}>
+        <MovieContext.Provider value={{ state, dispatch }}>
         <MovieDetail />
       </MovieContext.Provider>
       </Router>
@@ -43,7 +43,7 @@ describe("Movie Detail page", () => {
 
     const { getByText } = render(
       <Router history={history}>
-        <MovieContext.Provider value={{ movies: mockMovies }}>
+        <MovieContext.Provider value={{ state, dispatch }}>
         <MovieDetail />
       </MovieContext.Provider>
       </Router>
@@ -56,7 +56,7 @@ describe("Movie Detail page", () => {
 
     const { container, getByText } = render(
       <Router history={history}>
-        <MovieContext.Provider value={{ movies: mockMovies }}>
+        <MovieContext.Provider value={{ state, dispatch }}>
         <MovieDetail />
       </MovieContext.Provider>
       </Router>
