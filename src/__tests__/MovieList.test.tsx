@@ -36,6 +36,7 @@ beforeAll(() => {
 });
 
 const history = createMemoryHistory();
+const mockFn = jest.fn();
 
 describe("Main movie list page", () => {
   test("should display list of movies", async () => {
@@ -66,18 +67,49 @@ describe("Main movie list page", () => {
     );
   });
 
-  test("should apply selected genre filters to list", async () => {
-    const handleClose = jest.fn();
-    const {
-      getByText,
-      getByLabelText,
-      rerender
-    } = render(
+  test("should open filters modal when Filter By button is clicked", async () => {
+    const { getByText } = render(
       <Router history={history}>
         <MovieContext.Provider value={{ state, dispatch }}>
-          <Main>
-            <FiltersModal visible={false} setVisible={handleClose} />
-          </Main>
+          <Main />
+        </MovieContext.Provider>
+      </Router>
+    );
+    fireEvent.click(getByText("Filter By"));
+    const modal = await waitForElement(() => getByText("Animation"));
+    expect(modal).toBeInTheDocument();
+  });
+
+  test("should close filters modal when Apply button is clicked", async () => {
+    const { getByText } = render(
+      <MovieContext.Provider value={{ state, dispatch }}>
+        <FiltersModal visible={true} setVisible={mockFn} />
+      </MovieContext.Provider>
+    );
+
+    const applyButton = getByText("Apply");
+    fireEvent.click(applyButton);
+    expect(mockFn).toHaveBeenCalledTimes(1);
+  });
+
+  test("should changed checkbox to checked when selected", async () => {
+    const { getByLabelText } = render(
+      <MovieContext.Provider value={{ state, dispatch }}>
+        <FiltersModal visible={true} setVisible={mockFn} />
+      </MovieContext.Provider>
+    );
+
+    const checkbox = getByLabelText("Animation") as HTMLInputElement;
+    expect(checkbox.checked).toEqual(false);
+    fireEvent.click(checkbox);
+    expect(checkbox.checked).toEqual(true);
+  });
+
+  test("should apply selected genre filters to list", async () => {
+    const { getByText, getByLabelText, rerender } = render(
+      <Router history={history}>
+        <MovieContext.Provider value={{ state, dispatch }}>
+          <Main />
         </MovieContext.Provider>
       </Router>
     );
