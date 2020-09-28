@@ -1,5 +1,6 @@
 import React, { useContext, useState, FC } from "react";
-import lodash from "lodash.uniqby";
+import uniqby from "lodash.uniqby";
+import cloneDeep from "lodash.clonedeep";
 import { Row, Checkbox, List, Modal, Button } from "antd";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 import MovieContext from "../contexts/MovieContext";
@@ -16,15 +17,12 @@ const FiltersModal: FC<Props> = ({
 }) => {
   const { state, dispatch } = useContext(MovieContext);
   const { movies, filtersApplied } = state;
-  const [filtersSelected, setFiltersSelected] = useState<Filters>({
-    genre: [],
-    year: [],
-  });
+  const [filtersSelected, setFiltersSelected] = useState<Filters>(filtersApplied);
 
-  const genres = lodash(movies, "genre")
+  const genres = uniqby(movies, "genre")
     .map((movie: Movie) => movie.genre)
     .sort((prev, current) => (prev < current ? -1 : prev > current ? 1 : 0));
-  const year = lodash(movies, "productionYear")
+  const year = uniqby(movies, "productionYear")
     .map((movie: Movie) => movie.productionYear)
     .sort((prev, current) => (prev < current ? -1 : prev > current ? 1 : 0));
 
@@ -45,7 +43,7 @@ const FiltersModal: FC<Props> = ({
         [type]: [...filtersSelected[type], event.target.value],
       });
     } else {
-      const filterList = filtersSelected[type];
+      const filterList = cloneDeep(filtersSelected[type]);
       const filterIndex = filterList.findIndex(
         (filter: string | number) => filter === event.target.value
       );
