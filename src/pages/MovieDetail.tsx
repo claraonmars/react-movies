@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, FC } from "react";
 import { Typography } from "antd";
 import { useLocation } from "react-router-dom";
 import parse from "html-react-parser";
@@ -7,10 +7,11 @@ import EmptyMessage from "../components/EmptyMessage";
 
 const { Paragraph } = Typography;
 
-const MovieDetail = (): JSX.Element => {
+const MovieDetail: FC = () => {
   const [viewMore, setViewMore] = useState(false);
 
-  const { movies } = useContext(MovieContext);
+  const { state } = useContext(MovieContext);
+  const { movies } = state;
   const { pathname } = useLocation();
   const movie = movies?.find((movie) => movie.name === pathname.split("/")[1]);
 

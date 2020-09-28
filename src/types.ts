@@ -7,13 +7,10 @@ export interface Movie {
     image: string;
   };
 
-export interface Context {
-    movies?: Movie[]
-}
-
 export interface State {
     movies?: Movie[];
     isLoading: boolean;
+    filtersApplied: Filters
    }
 
 export interface Action {

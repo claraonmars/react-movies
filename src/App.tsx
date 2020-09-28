@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer, FC } from "react";
 import axios from "axios";
 import { notification, Spin } from "antd";
 import { BrowserRouter, Route } from "react-router-dom";
@@ -7,7 +7,6 @@ import NavBar from "./components/NavBar";
 import Main from "./pages/Main";
 import { reducer } from "./reducer";
 import MovieDetail from "./pages/MovieDetail";
-import { Movie } from "./types";
 
 const openNotification = (message: string) => {
   notification.error({
@@ -16,9 +15,11 @@ const openNotification = (message: string) => {
   });
 };
 
-const App = (): JSX.Element => {
-  const [state, dispatch] = useReducer(reducer, { isLoading: false });
-  const [movies, setMovies] = useState<Movie[]>([]);
+const App: FC = () => {
+  const [state, dispatch] = useReducer(reducer, { isLoading: false, filtersApplied: {
+    genre: [],
+    year: [],
+  } });
 
   const getMovies = async () => {
     dispatch({ type: "SET_LOADING", payload: true });
@@ -26,7 +27,6 @@ const App = (): JSX.Element => {
       const { data } = await axios.get(
         "https://sometimes-maybe-flaky-api.gdshive.io/"
       );
-      setMovies(data);
       dispatch({ type: "SET_MOVIES", payload: data });
     } catch (e) {
       // TODO: add checks
@@ -42,11 +42,10 @@ const App = (): JSX.Element => {
   }, []);
 
   return (
-    <MovieContext.Provider value={{ movies: movies }}>
+    <MovieContext.Provider value={{ state, dispatch }}>
       {state.isLoading ? (
         <Spin style={{transform: "translate(50vw, 10px)"}}/>
       ) : (
-        <>
             <BrowserRouter>
               <NavBar />
               <div style={{ padding: "10px 50px 0", alignItems: "center" }}>
@@ -55,7 +54,6 @@ const App = (): JSX.Element => {
               <Route path="/:movie" component={MovieDetail} />
               </div>
             </BrowserRouter>
-        </>
       )}
     </MovieContext.Provider>
   );

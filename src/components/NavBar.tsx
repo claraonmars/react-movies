@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Layout, Menu } from 'antd';
 import { Link, useRouteMatch } from 'react-router-dom'
 
 const { Header } = Layout;
 
-const NavBar = (): JSX.Element => {
+const NavBar: FC = () => {
   const match = useRouteMatch({
     path: "/",
     strict: true,

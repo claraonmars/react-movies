@@ -1,8 +1,12 @@
-import { createContext } from 'react';
-import { Context } from '../types'
+import { createContext } from "react";
+import { State } from "../types";
 
-const MovieContext = createContext<Context>({
-    movies: [{name: 'string', productionYear: 1, genre: 'string', synopsisShort: 'string', synopsis: 'string', image: 'string'}]
-})
+const MovieContext = createContext<{
+  state: State;
+  dispatch: React.Dispatch<any>;
+}>({ state: { isLoading: false, filtersApplied: {
+    genre: [],
+    year: [],
+  } }, dispatch: () => null });
 
-export default MovieContext
+export default MovieContext;

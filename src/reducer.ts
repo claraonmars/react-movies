@@ -6,6 +6,8 @@ export const reducer = (state: State, action: Action): State => {
         return {...state, isLoading: action.payload};
       case 'SET_MOVIES':
         return {...state, movies: action.payload};
+      case 'SET_FILTERS':
+        return {...state, filtersApplied: action.payload};
       default:
         return state
     }
